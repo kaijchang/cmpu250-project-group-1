@@ -17,6 +17,7 @@ with open(processed_data_file_path, 'w') as f:
     header_row = [
         'id',
         'title',
+        'genres',
         'weighted_rating',
         'release_year',
     ]
@@ -36,6 +37,7 @@ with open(processed_data_file_path, 'w') as f:
 
         title_id = node['title']['id']
         title_text = node['title']['titleText']['text']
+        genres = ','.join([genre['genre']['text'] for genre in node['title']['titleGenres']['genres']])
         release_year = node['title']['releaseDate']['year']
 
         weighted_rating = title_data['weighted_rating']
@@ -44,6 +46,7 @@ with open(processed_data_file_path, 'w') as f:
         row = [
             title_id,
             title_text,
+            genres,
             weighted_rating,
             release_year,
         ]
