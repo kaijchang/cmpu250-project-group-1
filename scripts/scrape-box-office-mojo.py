@@ -5,8 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 
 data_dir_path = os.path.join(os.path.dirname(__file__), '..', 'data')
-imdb_data_file_path = os.path.join(data_dir_path, 'imdb-raw.json')
-data_file_path = os.path.join(data_dir_path, 'box-office-mojo-raw.json')
+imdb_data_file_path = os.path.join(data_dir_path, 'imdb-original.json')
+data_file_path = os.path.join(data_dir_path, 'box-office-mojo-original.json')
 
 with open(imdb_data_file_path, 'r') as f:
     imdb_data = json.load(f)
