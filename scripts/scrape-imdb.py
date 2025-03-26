@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 data_dir_path = os.path.join(os.path.dirname(__file__), '..', 'data')
-data_file_path = os.path.join(data_dir_path, 'imdb-raw.json')
+data_file_path = os.path.join(data_dir_path, 'imdb-original.json')
 
 advanced_title_search_query = """
 fragment BaseTitleCard on Title {

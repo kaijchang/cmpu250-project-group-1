@@ -3,15 +3,15 @@ import csv
 import os
 
 data_dir_path = os.path.join(os.path.dirname(__file__), '..', 'data')
-raw_data_file_path = os.path.join(data_dir_path, 'imdb-raw.json')
-processed_data_file_path = os.path.join(data_dir_path, 'imdb-processed.csv')
+original_data_file_path = os.path.join(data_dir_path, 'imdb-original.json')
+cleaned_data_file_path = os.path.join(data_dir_path, 'imdb-cleaned.csv')
 
-with open(raw_data_file_path, 'r') as f:
-    raw_data = json.load(f)
+with open(original_data_file_path, 'r') as f:
+    original_data = json.load(f)
 
-print(len(raw_data))
+print(len(original_data))
 
-with open(processed_data_file_path, 'w') as f:
+with open(cleaned_data_file_path, 'w') as f:
     writer = csv.writer(f)
 
     header_row = [
@@ -32,7 +32,7 @@ with open(processed_data_file_path, 'w') as f:
     
     writer.writerow(header_row)
 
-    for title_data in raw_data.values():
+    for title_data in original_data.values():
         node = title_data['node']
 
         title_id = node['title']['id']
