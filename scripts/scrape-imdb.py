@@ -13,47 +13,11 @@ fragment BaseTitleCard on Title {
     titleText {
         text
     }
-    titleType {
-        id
-        text
-        canHaveEpisodes
-        displayableProperty {
-            value {
-                plainText
-            }
-        }
-    }
-    originalTitleText {
-        text
-    }
-    primaryImage {
-        id
-        width
-        height
-        url
-        caption {
-            plainText
-        }
-    }
-    releaseYear {
+    releaseDate {
         year
-        endYear
-    }
-    ratingsSummary {
-        aggregateRating
-        voteCount
-    }
-    runtime {
-        seconds
-    }
-    certificate {
-        rating
-    }
-    canRate {
-        isRatable
     }
     titleGenres {
-        genres(limit: 3) {
+        genres {
             genre {
                 text
             }
@@ -64,40 +28,6 @@ fragment BaseTitleCard on Title {
 
 fragment TitleListItemMetadata on Title {
     ...BaseTitleCard
-    plot {
-        plotText {
-            plainText
-        }
-    }
-    latestTrailer {
-        id
-    }
-    series {
-        series {
-            id
-            originalTitleText {
-                text
-            }
-            releaseYear {
-                endYear
-                year
-            }
-            titleText {
-                text
-            }
-        }
-    }
-    releaseDate {
-        day
-        month
-        year
-    }
-    productionStatus {
-        currentProductionStage {
-            id
-            text
-        }
-    }
 }
 
 query AdvancedTitleSearch(
@@ -204,6 +134,23 @@ query AdvancedTitleSearch(
     }
 }"""
 
+title_keywords_query = """
+query TitleKeywordsQuery($tconst: ID!) {
+    title(id: $tconst) {
+        keywords(first: 100) {
+            edges {
+                node {
+                    keyword {
+                        text {
+                            text
+                        }
+                    }
+                }
+            }
+        }
+    }
+}"""
+
 title_filtered_histogram_data_query = """
 query TitleFilteredHistogramData($tconst: ID!, $country: Country!) {
     title(id: $tconst) {
@@ -289,6 +236,16 @@ while True:
         title_data['unweighted_rating'] = unweighted_rating
         title_data['top_countries'] = top_countries
 
+        response = session.post(graphql_url, json={
+            'query': title_keywords_query,
+            'variables': {
+                'tconst': title_id,
+            }
+        })
+        data = response.json()['data']
+        
+        title_data['keywords'] = [keyword['node']['keyword']['text']['text'] for keyword in data['title']['keywords']['edges']]
+
         for country_idx, country in enumerate(top_countries):
             response = session.post(graphql_url, json={
                 'query': title_filtered_histogram_data_query,
@@ -297,9 +254,11 @@ while True:
                     'country': country
                 }
             })
-            data = response.json()['data']['title']['aggregateRatingsBreakdown']['histogram']['histogramValues']
+            data = response.json()['data']
 
-            title_data[f'{country_idx}_histogram'] = data
+            histogram_data = data['title']['aggregateRatingsBreakdown']['histogram']['histogramValues']
+
+            title_data[f'{country_idx}_histogram'] = histogram_data
 
         all_data[title_id] = title_data
 

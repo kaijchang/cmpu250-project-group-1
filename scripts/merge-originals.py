@@ -4,17 +4,17 @@ import os
 
 data_dir_path = os.path.join(os.path.dirname(__file__), '..', 'data')
 imdb_original_data_file_path = os.path.join(data_dir_path, 'imdb-original.json')
-box_office_mojo_original_data_file_path = os.path.join(data_dir_path, 'box-office-mojo-original.json')
+# box_office_mojo_original_data_file_path = os.path.join(data_dir_path, 'box-office-mojo-original.json')
 cleaned_data_file_path = os.path.join(data_dir_path, 'imdb-cleaned.csv')
 
 with open(imdb_original_data_file_path, 'r') as f:
     imdb_original_data = json.load(f)
 
-with open(box_office_mojo_original_data_file_path, 'r') as f:
-    box_office_mojo_original_data = json.load(f)
+# with open(box_office_mojo_original_data_file_path, 'r') as f:
+#     box_office_mojo_original_data = json.load(f)
 
 print(len(imdb_original_data))
-print(len(box_office_mojo_original_data))
+# print(len(box_office_mojo_original_data))
 
 with open(cleaned_data_file_path, 'w') as f:
     writer = csv.writer(f)
@@ -25,7 +25,8 @@ with open(cleaned_data_file_path, 'w') as f:
         'genres',
         'weighted_rating',
         'release_year',
-        'gross',
+        'keywords',
+        # 'gross',
     ]
 
     for i in range(1, 11):
@@ -40,7 +41,7 @@ with open(cleaned_data_file_path, 'w') as f:
 
     for title_id in imdb_original_data:
         title_data = imdb_original_data[title_id]
-        box_office_data = box_office_mojo_original_data.get(title_id, {})
+        # box_office_data = box_office_mojo_original_data.get(title_id, {})
 
         node = title_data['node']
 
@@ -52,8 +53,10 @@ with open(cleaned_data_file_path, 'w') as f:
         weighted_rating = title_data['weighted_rating']
         top_countries = title_data['top_countries']
 
-        market = box_office_data.get('Domestic', { 'gross': None })
-        gross = market['gross']
+        keywords = ','.join(title_data['keywords'])
+
+        # market = box_office_data.get('Domestic', { 'gross': None })
+        # gross = market['gross']
 
         row = [
             title_id,
@@ -61,7 +64,8 @@ with open(cleaned_data_file_path, 'w') as f:
             genres,
             weighted_rating,
             release_year,
-            gross,
+            keywords,
+            # gross,
         ]
 
         for i in range(10):
