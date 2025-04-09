@@ -1,4 +1,10 @@
-# Codebook
+# `data`
+
+`box-office-mojo-original.json`: Original dataset scraped from Box Office Mojo, no longer in use.
+`imdb-original.json`: Original dataset scraped from IMDb.
+`imdb-cleaned.csv`: Cleaned version of the dataset to be used in Jupyter notebooks.
+
+## Codebook
 
 \* Variables not in `imdb-cleaned.csv` that are calculated in the latest Jupyter notebook.
 
