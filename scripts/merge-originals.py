@@ -47,7 +47,7 @@ with open(cleaned_data_file_path, 'w') as f:
 
         title_id = node['title']['id']
         title_text = node['title']['titleText']['text']
-        genres = ','.join([genre['genre']['text'] for genre in node['title']['titleGenres']['genres']])
+        genres = ','.join(title_data['genres'])
         release_year = node['title']['releaseDate']['year']
 
         weighted_rating = title_data['weighted_rating']

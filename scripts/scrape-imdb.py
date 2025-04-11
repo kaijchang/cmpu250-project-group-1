@@ -16,14 +16,6 @@ fragment BaseTitleCard on Title {
     releaseDate {
         year
     }
-    titleGenres {
-        genres {
-            genre {
-                text
-            }
-        }
-    }
-    canHaveEpisodes
 }
 
 fragment TitleListItemMetadata on Title {
@@ -210,12 +202,22 @@ while True:
 
         title_id = node['title']['id']
 
-        ratings_url = f'https://www.imdb.com/title/{title_id}/ratings'
-
-        print(edge_idx, node['title']['titleText']['text'], ratings_url)
-
         if title_id in all_data:
             continue
+
+        title_url = f'https://www.imdb.com/title/{title_id}'
+
+        print(edge_idx, node['title']['titleText']['text'], title_url)
+        
+        response = session.get(title_url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+
+        interest_div = soup.find(attrs={'data-testid': 'interests'})
+
+        title_data['genres'] = [a.text for a in interest_div.find_all('a')]
+        print(title_data['genres'])
+
+        ratings_url = f'https://www.imdb.com/title/{title_id}/ratings'
 
         response = session.get(ratings_url)
         soup = BeautifulSoup(response.text, 'html.parser')
