@@ -120,6 +120,15 @@ query AdvancedTitleSearch(
                             }
                         }
                     }
+                    principalCredits {
+                        credits {
+                            name {
+                                nameText {
+                                    text
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -215,7 +224,6 @@ while True:
         interest_div = soup.find(attrs={'data-testid': 'interests'})
 
         title_data['genres'] = [a.text for a in interest_div.find_all('a')]
-        print(title_data['genres'])
 
         ratings_url = f'https://www.imdb.com/title/{title_id}/ratings'
 
