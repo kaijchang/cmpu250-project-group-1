@@ -26,6 +26,7 @@ with open(cleaned_data_file_path, 'w') as f:
         'weighted_rating',
         'release_year',
         'keywords',
+        'credits',
         # 'gross',
     ]
 
@@ -55,6 +56,13 @@ with open(cleaned_data_file_path, 'w') as f:
 
         keywords = ','.join(title_data['keywords'])
 
+        credits = None
+        try:
+            credits = next(filter(lambda credits: credits['category']['text'] == 'Stars', node['title']['principalCredits']))['credits']
+            credits = ','.join(credit['name']['nameText']['text'] for credit in credits)
+        except StopIteration:
+            pass
+
         # market = box_office_data.get('Domestic', { 'gross': None })
         # gross = market['gross']
 
@@ -65,6 +73,7 @@ with open(cleaned_data_file_path, 'w') as f:
             weighted_rating,
             release_year,
             keywords,
+            credits,
             # gross,
         ]
 

@@ -121,6 +121,9 @@ query AdvancedTitleSearch(
                         }
                     }
                     principalCredits {
+                        category {
+                            text
+                        }
                         credits {
                             name {
                                 nameText {
