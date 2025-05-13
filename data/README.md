@@ -10,11 +10,12 @@
 
 | Variables | Description |
 | :---      |         :---| 
-| title | A nominal variable for the title of the movie |
+| title | A nominal variable for the title of each movie. |
 | genres | A list of genres for each movie. |
 | weighted_rating | A continuous numeric variable for the weighted average of user votes calculated using a proprietary algorithm. IMDb uses an alternative algorithm when "unusual voting activity is detected." |
 | release_year | A categorical variable for the year the movie was released |
 | keywords | A list of keywords for each movie. |
+| credits | A list of the names of up to four star actors for each movie. |
 | rating_{1...10} | A discrete numeric variable for the total number of votes for each rating. |
 | country_{0...4} | A nominal variable for each of the five countries with the most votes cast. |
 | country_{0...4}_rating{1...10} | A discrete numeric variable for the number of votes for each rating for each of the five countries with the most votes cast. |
